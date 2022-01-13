@@ -1,0 +1,77 @@
+#ptbl {
+    position: absolute;
+    white-space: nowrap;
+}
+
+.group {
+    position: relative;
+    display: inline-block;
+}
+
+.element {
+    position: relative;
+    outline: .2vw black solid;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    transition: transform 250ms;
+    cursor: pointer;
+    overflow: hidden;
+    display: -ms-grid;
+    display: grid;
+    place-content: center;
+    margin-top: 1vh;
+    margin-left: 1vh;
+    background: white;
+    color: white;
+}
+
+.element:hover {
+    z-index: 1;
+    transform: scale(1.5);
+}
+
+.element.null {
+    background: black;
+    color: black;
+}
+
+.element.none {
+    background: #242424;
+}
+
+.element.alkali {
+    background: #7B3F00;
+}
+
+.element.alkaline {
+    background: #8B8000;
+}
+
+.element.transition {
+    background: #880808;
+}
+
+.element.pt {
+    background: #00008b;
+}
+
+.element.metalloid {
+    background: #007575;
+}
+
+.element.r-nonmetal {
+    background: #006400;
+}
+
+.element.noble {
+    background: #702963;
+}
+
+.element.lanthanide {
+    background: #5C4033;
+    display: inline-grid;
+}
+
+.element.actinide {
+    background: #AA336A;
+    display: inline-grid;
+}

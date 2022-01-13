@@ -1,0 +1,213 @@
+body, html {
+    position: absolute;
+    min-width: 100vw;
+    min-height: 100vh;
+    overflow: hidden;
+    margin: 0%;
+}
+
+body {
+    display: -ms-grid;
+    display: grid;
+    place-items: center;
+    background: white;
+}
+
+#content {
+    opacity: 0;
+}
+
+#ptbl {
+    position: absolute;
+    left: 0%;
+    bottom: 1%;
+    z-index: 2;
+}
+
+#element {
+    position: absolute;
+    left: 7vw;
+    top: 7vw;
+    box-shadow: 0 0 0 .1vw black;
+    transform: scale(6);
+}
+
+#element:hover {
+    transform: scale(5);
+}
+
+#model {
+    position: absolute;
+    height: 30vw;
+    width: 30vw;
+    display: -ms-grid;
+    display: grid;
+    place-items: center;
+    right: 10%;
+}
+
+#nucleus {
+    position: absolute;
+    width: 10vw;
+    height: 10vw;
+    border-radius: 50%;
+    background-color: rgba(0, 255, 0, 0.274);
+    display: -ms-grid;
+    display: grid;
+    place-content: center;
+    font-size: 4vw;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: bolder;
+    box-shadow: 0 0 0 2pt black;
+    cursor: pointer;
+    z-index: 1;
+    transition: background-color 250ms;
+}
+
+#nucleus::before {
+    position: absolute;
+    content: "";
+    left: 0%;
+    top: 0%;
+    width: 100%;
+    height: 100%;
+    background-image: url(https://cdn4.iconfinder.com/data/icons/budicon-arrow/25/full-loop-arrow-512.png);
+    background-size: 100% 100%;
+    opacity: 0.2;
+}
+
+#nucleus.rotate::before {
+    animation: shellRotate 8s linear infinite forwards;
+}
+
+#nucleus.pause::before {
+    animation-play-state: paused;
+}
+
+.shell {
+    position: absolute;
+    border-radius: 50%;
+    display: -ms-grid;
+    display: grid;
+    place-items: center;
+    box-shadow: 0 0 0 2pt black;
+}
+
+.electron {
+    position: absolute;
+    top: 0%;
+    width: 1.2vw;
+    height: 1.2vw;
+    border-radius: 50%;
+    z-index: 1;
+    box-shadow: 0 0 0 2pt black;
+    transition: background-color 250ms;
+}
+
+.electron.s {
+    background: lightblue;
+}
+
+.electron.p {
+    background: green;
+}
+
+.electron.d {
+    background: red;
+}
+
+.electron.f {
+    background: blue;
+}
+
+.demo {
+    position: absolute;
+    right: 0%;
+    height: 20%;
+    width: 5%;
+    top: 2%;
+    display: -ms-grid;
+    display: grid;
+    place-items: center;
+}
+
+.demo .electron {
+    position: relative;
+    transform: translateY(-50%);
+    float: top;
+}
+
+.demo .electron b {
+    position: absolute;
+    right: 200%;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.shell.rotate:nth-child() {
+    animation: shellRotate 4s linear infinite forwards;
+}
+
+.shell.rotate:nth-child(2n + 1) {
+    animation: shellRotate 8s linear infinite forwards;
+    animation-direction: reverse;
+}
+
+.shell.rotate:nth-child(2n + 2) {
+    animation: shellRotate 12s linear infinite forwards;
+    animation-direction: normal;
+}
+
+.shell.rotate:nth-child(2n + 3) {
+    animation: shellRotate 16s linear infinite forwards;
+    animation-direction: reverse;
+}
+
+@keyframes shellRotate {
+    0% {transform: rotate(0deg);}
+    100% {transform: rotate(360deg);}
+}
+
+#info-a {
+    position: absolute;
+    top: 1vw;
+    left: 17.5vw;
+    font-size: 3vw;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    text-align: left;
+}
+
+#a-number {
+    position: absolute;
+    top: 0%;
+    left: 102%;
+    font-size: 3vw;
+    width: 25%;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+#landscape {
+    display: none;
+}
+
+#nep {
+    position: absolute;
+    top: 0%;
+    left: 26%;
+    font-size: 4vw;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    opacity: 0;
+    transition: opacity 250ms;
+}
+
+@media screen and (orientation: portrait) {
+    body *:not(#landscape) {
+        display: none;
+    }
+
+    #landscape {
+        font-size: 5vw;
+        color: black;
+        display: block;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
+}
