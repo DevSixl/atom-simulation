@@ -74,16 +74,41 @@ function start() {
     elem.onclick = info;
     document.body.appendChild(elem);
 
+    document.querySelectorAll(".demo > .electron").forEach(e => {
+        e.addEventListener("mouseover", () => {
+            document.querySelectorAll("#model > .shell > .electron").forEach(node => {
+                node.bg = () => {   
+                    switch(node.classList[1]){
+                        case "s": return "cyan";
+                        case "p": return "lime";
+                        case "d": return "red";
+                        case "f": return "blue";
+                    }
+                }
+                node.style.backgroundColor = window.getComputedStyle(e, null).backgroundColor;
+            })
+        })
+
+        e.addEventListener("mouseout", () => {
+            document.querySelectorAll("#model > .shell > .electron").forEach(node => {
+                node.style.backgroundColor = node.bg();
+            })
+        })
+    })
+
     rotate = false;
     toggleRotation();
 }
 
 function createElement(element) {
+    console.clear();
     document.querySelector("#model").reset = () => {createElement(element)};
     var atom = {
         protons: 0,
         neutrons: 0,
-        electrons: 0
+        electrons: 0,
+        valence: 0,
+        shells: 0
     };
 
     Array.from(document.getElementsByClassName("shell")).forEach(shell => {
@@ -99,8 +124,12 @@ function createElement(element) {
     atom.protons = element.number;
     atom.electrons = element.number;
     atom.neutrons = Math.round(element.mass) - element.number;
+    atom.shells = Object.keys(element.configuration).length;
+    element.configuration[Object.keys(element.configuration)[Object.keys(element.configuration).length - 1]].forEach(e => {
+        atom.valence += Number.parseInt(e.substring(1));
+    })
 
-    document.querySelector("#info-a").innerHTML = `<label for="a-number">Protons/Electrons: <input type="number" id="a-number" name="a-number" min="1" max="118"></label><br>Neutrons: ${atom.neutrons}<br>Shells: ${Object.keys(element.configuration).length}`;
+    document.querySelector("#info-a").innerHTML = `<label for="a-number">Protons/Electrons: <input type="number" id="a-number" name="a-number" min="1" max="118"></label><br>Neutrons: ${atom.neutrons}<br>Shells: ${atom.shells}<br>Valence: ${atom.valence}`;
     const elemFinder = document.querySelector("#a-number");
     elemFinder.value = atom.protons;
     elemFinder.addEventListener("change", () => {
@@ -119,6 +148,7 @@ function createElement(element) {
     Object.keys(element.configuration).forEach(e => {
         var shellSize = document.body.clientWidth / 12 * shellMultiplier;
         let shell = document.createElement("div");
+        let electrons = [];
         shell.className = "shell rotate";
         if(!rotate) shell.style.animationPlayState = "paused";
         shell.style.width = `${shellSize}px`;
@@ -136,6 +166,7 @@ function createElement(element) {
             const type = subshell.substring(0, 1);
 
             for (i = 0; i < Number.parseInt(subshell.substring(1)); i++) {
+                electrons.push(type);
                 let electron = document.createElement("div");
                 electron.className = `electron ${type}`;
                 electron.style.transformOrigin = `50% ${shellSize / 2}px`;
@@ -147,6 +178,7 @@ function createElement(element) {
         })
 
         shellMultiplier += 4 / 8;
+        console.log(electrons);
     });
 }
 

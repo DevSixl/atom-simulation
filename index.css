@@ -105,11 +105,11 @@ body {
 }
 
 .electron.s {
-    background: lightblue;
+    background: cyan;
 }
 
 .electron.p {
-    background: green;
+    background: lime;
 }
 
 .electron.d {
@@ -118,6 +118,10 @@ body {
 
 .electron.f {
     background: blue;
+}
+
+.electron.all {
+    background: linear-gradient(cyan, lime, red, blue);
 }
 
 .demo {
@@ -133,8 +137,12 @@ body {
 
 .demo .electron {
     position: relative;
-    transform: translateY(-50%);
     float: top;
+    transition: transform 250ms;
+}
+
+.demo .electron:hover {
+    transform: scale(1.4);
 }
 
 .demo .electron b {
