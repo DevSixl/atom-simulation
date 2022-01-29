@@ -9,27 +9,36 @@
         <meta property="og:title" content="Atom Simulation - Sixl">
         <meta property="og:description" content="(In Progress) Atom simulation made by DevSixl">
         <meta property="og:image" content="https://devsixl.github.io/logo.jpg">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script>
         <script src="./ptable/elements.js"></script>
         <script src="./ptable/index.js"></script>
+        <script src="./createAtom.js"></script>
         <script src="./main.js"></script>
     </head>
 
-    <body onload="start()" onkeydown="keyDown(event)" onresize="resize()">
+    <body onkeydown="keyDown(event)" onresize="resize()">
         <b id="landscape">Please use landscape mode.</b>
 
         <div id="model">
             <div id="nucleus" onclick="toggleRotation()" class="rotate"></div>
         </div>
 
-        <div class="demo">
-            <div class="electron s keep"><b>s</b></div>
-            <div class="electron p keep"><b>p</b></div>
-            <div class="electron d keep"><b>d</b></div>
-            <div class="electron f keep"><b>f</b></div>
+        <div class="demo-a">
+            <div class="electron s keep"><b><sup>s</sup></b></div>
+            <div class="electron p keep"><b><sup>p</sup></b></div>
+            <div class="electron d keep"><b><sup>d</sup></b></div>
+            <div class="electron f keep"><b><sup>f</sup></b></div>
+            <div class="electron all keep"><b></b></div>
+        </div>
+
+        <div class="demo-b">
+            <div class="proton"><b>(Protons)<sup>+</sup></b></div>
+            <div class="neutron"><b>(Neutrons)<sup>o</sup></b></div>
         </div>
 
         <div id="info-a"></div>
-        <b id="nep">Hi Nep!</b>
+
+        <b id="secret">Secret</b>
+
+        <div id="photo"></div>
     </body>
 </html>

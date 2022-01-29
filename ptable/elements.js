@@ -1,4 +1,28 @@
 const elements = {
+    /* Elements are saved as JavaScript Objects
+    Syntax:
+
+    'Element Name': {
+        name: 'Element Name',
+        symbol: 'Element Symbol',
+        number: 0, (Element's Atomic Number),
+        mass: 0, (Element's Atomic Mass),
+        configuration: {}, (Element's Electron Configuration),
+        family: 'Element's Periodic Family ID'
+    }
+
+    Hydrogen Example:
+    'Hydrogen': {
+        name: 'Hydrogen',
+        symbol: 'H',
+        number: 1,
+        mass: 1.008,
+        configuration: {1: ['s1']},
+        family: 'r-nonmetal' (Reactive Nonmetal)
+    }
+
+    */
+
     'None': {
         name: 'N/A',
         symbol: 'N/A',

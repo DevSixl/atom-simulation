@@ -1,24 +1,26 @@
+//Rotation boolean for rotation toggling
 let rotate;
+let pairs = true;
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-window.onload = start();
-
+//Handle page resizing so that atom doesn't lose proportions
 function resize() {
+    //Resets atom to scale when page is resized
     document.querySelector("#model").reset();
 }
 
-function changeElement(element) {
+//Changes the currently selected element
+//args 'element' represents the node of the periodic element selected
+function changeElement(element, pairs) {
     document.querySelector("#element").remove();
-    createElement(elements[element.getAttribute("name")]);
+    createAtom(elements[element.getAttribute("name")], pairs);
     let elem = element.cloneNode(true);
     elem.id = "element";
-    elem.onclick = info;
+    //elem.onclick = info;
+
     document.body.appendChild(elem);
 }
 
+//Toggles the rotation of the atom
 function toggleRotation() {
     let nucleus = document.querySelector("#nucleus");
     rotate = !rotate;
@@ -39,42 +41,96 @@ function toggleRotation() {
     }
 }
 
-function start() {
-    let nep = document.querySelector("#nep");
+//Function that runs when webpage is loaded
+window.onload = () => {
+    //Easter egg, shhhhh
+    let secret = document.querySelector("#secret");
     
     const table = createPtable(2.3);
-    table.appendChild(nep);
-    Array.from(getAllPElements()).forEach(e => {
-        if (e.getAttribute("name") == "N/A") return;
-        if (e.getAttribute("name") == "Neptunium") {
-            e.nepClicks = 0;
-            e.onclick = async () => {
-                changeElement(e);
-                e.nepClicks++;
+    table.appendChild(secret);
+    getAllPElements().forEach(e => {
+        e.clicks = 0;
 
-                if(e.nepClicks == 5) {
-                    nep.style.opacity = 1;
-                    setTimeout(() => {
-                        nep.style.opacity = 0;
-                    }, 300);
-                    e.nepClicks = 0;
+        switch(e.getAttribute("name")) {
+            case "N/A": break;
+
+            case "Neptunium":
+                e.classList.add("secret");
+                e.onclick = async () => {
+                    changeElement(e, pairs);
+                    secret.innerHTML = "Hi Nep!";
+                    secret.style.color = "black";
+                    e.clicks++;
+    
+                    if(e.clicks == 5) {
+                        secret.style.opacity = 1;
+                        setTimeout(() => {
+                            secret.style.opacity = 0;
+                        }, 300);
+                        e.clicks = 0;
+                    }
                 }
-            }
-            return;
-        }
-        e.onclick = () => {
-            changeElement(e);
-            getPElementByName("Neptunium").nepClicks = 0;
+                break;
+
+            case "Thulium":
+                e.classList.add("secret");
+                e.onclick = async () => {
+                    changeElement(e, pairs);
+                    secret.innerHTML = "nice";
+                    secret.style.color = "black";
+                    e.clicks++;
+    
+                    if(e.clicks == 5) {
+                        secret.style.opacity = 1;
+                        setTimeout(() => {
+                            secret.style.opacity = 0;
+                        }, 300);
+                        e.clicks = 0;
+                    }
+                }
+                break;
+
+            case "Dysprosium":
+                e.classList.add("secret");
+                e.onclick = async () => {
+                    changeElement(e, pairs);
+                    e.clicks++;
+
+                    if(e.clicks == 6) {
+                        secret.innerHTML = "...";
+                        secret.style.color = "red";
+                        document.querySelectorAll(".shell").forEach(shell => {
+                            shell.style.boxShadow = "0 0 0 .2vw red";
+                        })
+                        document.querySelectorAll("#model > .shell > .electron").forEach(electron => {
+                            electron.style.backgroundColor = "red";
+                        })
+                        secret.style.opacity = 1;
+                        setTimeout(() => {
+                            secret.style.opacity = 0;
+                        }, 300);
+                        e.clicks = 0;
+                    }
+                }
+                break;
+
+            default:
+                e.onclick = () => {
+                    changeElement(e, pairs);
+                    document.querySelectorAll(".secret").forEach(secret => {secret.clicks = 0});
+                }
+                break;
         }
     })
 
-    createElement(elements.Hydrogen);
+    createAtom(elements.Hydrogen);
     let elem = getPElementByName("Hydrogen").cloneNode(true);
     elem.id = "element";
     elem.onclick = info;
     document.body.appendChild(elem);
 
-    document.querySelectorAll(".demo > .electron").forEach(e => {
+    document.querySelectorAll(".demo-a > .electron").forEach(e => {
+        if(e.classList.contains("all")) return;
         e.addEventListener("mouseover", () => {
             document.querySelectorAll("#model > .shell > .electron").forEach(node => {
                 node.bg = () => {   
@@ -85,13 +141,15 @@ function start() {
                         case "f": return "blue";
                     }
                 }
-                node.style.backgroundColor = window.getComputedStyle(e, null).backgroundColor;
+                node.style.background = window.getComputedStyle(e, null).background;
+                //node.style.animation = window.getComputedStyle(e, null).animation;
             })
         })
 
         e.addEventListener("mouseout", () => {
             document.querySelectorAll("#model > .shell > .electron").forEach(node => {
-                node.style.backgroundColor = node.bg();
+                node.style.background = node.bg();
+                //node.style.animation = "";
             })
         })
     })
@@ -100,94 +158,15 @@ function start() {
     toggleRotation();
 }
 
-function createElement(element) {
-    console.clear();
-    document.querySelector("#model").reset = () => {createElement(element)};
-    var atom = {
-        protons: 0,
-        neutrons: 0,
-        electrons: 0,
-        valence: 0,
-        shells: 0
-    };
-
-    Array.from(document.getElementsByClassName("shell")).forEach(shell => {
-        shell.remove();
-    });
-
-    Array.from(document.getElementsByClassName("electron")).forEach(elec => {
-        if(!elec.classList.contains("keep")) elec.remove();
-    });
-
-    document.getElementById("nucleus").innerHTML = element.symbol;
-
-    atom.protons = element.number;
-    atom.electrons = element.number;
-    atom.neutrons = Math.round(element.mass) - element.number;
-    atom.shells = Object.keys(element.configuration).length;
-    element.configuration[Object.keys(element.configuration)[Object.keys(element.configuration).length - 1]].forEach(e => {
-        atom.valence += Number.parseInt(e.substring(1));
-    })
-
-    document.querySelector("#info-a").innerHTML = `<label for="a-number">Protons/Electrons: <input type="number" id="a-number" name="a-number" min="1" max="118"></label><br>Neutrons: ${atom.neutrons}<br>Shells: ${atom.shells}<br>Valence: ${atom.valence}`;
-    const elemFinder = document.querySelector("#a-number");
-    elemFinder.value = atom.protons;
-    elemFinder.addEventListener("change", () => {
-        if(elemFinder.value > 0 && elemFinder.value <= 118) {
-            document.querySelector("#element").remove();
-            let elem = getPElementByNumber(elemFinder.value).cloneNode(true);
-            elem.id = "element";
-            elem.onclick = info;
-            document.body.appendChild(elem);
-            createElement(elements[getPElementByNumber(elemFinder.value).getAttribute("name")]);
-        }
-    })
-
-    let shellMultiplier = 2;
-
-    Object.keys(element.configuration).forEach(e => {
-        var shellSize = document.body.clientWidth / 12 * shellMultiplier;
-        let shell = document.createElement("div");
-        let electrons = [];
-        shell.className = "shell rotate";
-        if(!rotate) shell.style.animationPlayState = "paused";
-        shell.style.width = `${shellSize}px`;
-        shell.style.height = `${shellSize}px`;
-        document.getElementById("model").appendChild(shell);
-        let amount = 0;
-        let rotateAmount;
-
-        element.configuration[e].forEach(s => {
-            amount += Number.parseInt(s.substring(1));
-        })
-        rotateAmount = 360 / amount;
-
-        element.configuration[e].forEach(subshell => {
-            const type = subshell.substring(0, 1);
-
-            for (i = 0; i < Number.parseInt(subshell.substring(1)); i++) {
-                electrons.push(type);
-                let electron = document.createElement("div");
-                electron.className = `electron ${type}`;
-                electron.style.transformOrigin = `50% ${shellSize / 2}px`;
-                electron.style.transform = `rotate(${rotateAmount}deg)`;
-    
-                shell.appendChild(electron);
-                rotateAmount += 360 / amount;
-            }
-        })
-
-        shellMultiplier += 4 / 8;
-        console.log(electrons);
-    });
-}
-
+//Function that opens tab with info on the element
 async function info() {
     window.open(`https://pubchem.ncbi.nlm.nih.gov/element/${this.getAttribute("a-number")}`, "_blank");
 }
 
+//Function that handles key presses
 function keyDown(event) {
     const picker = document.querySelector("#a-number");
+    const secret = document.querySelector("#secret");
     switch(event.code) {
         case "Space":
             toggleRotation();
@@ -197,16 +176,30 @@ function keyDown(event) {
         case "ArrowDown":
             if(Number.parseInt(picker.value) === 1) break;
             picker.value = Number.parseInt(picker.value) - 1;
-            createElement(elements[getPElementByNumber(Number.parseInt(picker.value)).getAttribute("name")]);
-            changeElement(getPElementByNumber(Number.parseInt(picker.value)));
+            changeElement(getPElementByNumber(Number.parseInt(picker.value)), pairs);
             break;
 
         case "ArrowRight":
         case "ArrowUp":
             if(Number.parseInt(picker.value) === 118) break;
             picker.value = Number.parseInt(picker.value) + 1;
-            createElement(elements[getPElementByNumber(Number.parseInt(picker.value)).getAttribute("name")]);
-            changeElement(getPElementByNumber(Number.parseInt(picker.value)));
+            changeElement(getPElementByNumber(Number.parseInt(picker.value)), pairs);
+            break;
+
+        case "KeyR":
+            document.querySelector("#model").reset();
+            break;
+
+        case "Enter":
+            switch(picker.value) {
+                case "727":
+                    secret.innerHTML = "WYSI";
+                    secret.style.opacity = 1;
+                    setTimeout(() => {
+                        secret.style.opacity = 0;
+                    }, 300);
+                    break;
+            }
             break;
     }
 }

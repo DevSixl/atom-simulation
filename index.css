@@ -10,11 +10,7 @@ body {
     display: -ms-grid;
     display: grid;
     place-items: center;
-    background: white;
-}
-
-#content {
-    opacity: 0;
+    background: linear-gradient(90deg, rgb(196, 194, 194), rgb(241, 241, 241));
 }
 
 #ptbl {
@@ -33,7 +29,7 @@ body {
 }
 
 #element:hover {
-    transform: scale(5);
+    transform: scale(5.5);
 }
 
 #model {
@@ -60,8 +56,8 @@ body {
     font-weight: bolder;
     box-shadow: 0 0 0 2pt black;
     cursor: pointer;
-    z-index: 1;
-    transition: background-color 250ms;
+    z-index: 10;
+    transition: background-color 250ms, box-shadow 250ms;
 }
 
 #nucleus::before {
@@ -84,23 +80,33 @@ body {
     animation-play-state: paused;
 }
 
+#nucleus:hover {
+    box-shadow: 0 0 1vw .2vw red;
+}
+
 .shell {
     position: absolute;
     border-radius: 50%;
     display: -ms-grid;
     display: grid;
     place-items: center;
-    box-shadow: 0 0 0 2pt black;
+    box-shadow: 0 0 0 .2vw black;
+    transition: box-shadow 250ms, opacity 250ms;
+    cursor: pointer;
 }
 
-.electron {
+.shell:hover {
+    box-shadow: 0 0 1vw .2vw red;
+}
+
+.electron, .proton, .neutron {
     position: absolute;
     top: 0%;
     width: 1.2vw;
     height: 1.2vw;
     border-radius: 50%;
     z-index: 1;
-    box-shadow: 0 0 0 2pt black;
+    box-shadow: 0 0 0 .2vw black;
     transition: background-color 250ms;
 }
 
@@ -121,34 +127,82 @@ body {
 }
 
 .electron.all {
-    background: linear-gradient(cyan, lime, red, blue);
+    background: linear-gradient(90deg, red, lime, cyan, blue, red);
+    animation-name: rainbow;
+    animation-timing-function: linear;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-direction: reverse;
+    background-size: 400%;
 }
 
-.demo {
+@keyframes rainbow {
+    0% {
+        background-position: 0% 0%;
+    }
+
+    100% {
+        background-position: 400% 400%;
+    }
+}
+
+.demo-a, .demo-b {
     position: absolute;
     right: 0%;
     height: 20%;
-    width: 5%;
+    width: 3.5%;
     top: 2%;
     display: -ms-grid;
     display: grid;
     place-items: center;
+    transition: transform 500ms;
+    transform-origin: top right;
 }
 
-.demo .electron {
+.demo-b {
+    top: initial;
+    bottom: 30vh;
+    right: .5%;
+}
+
+.demo-a .electron, .demo-b .proton, .demo-b .neutron {
     position: relative;
-    float: top;
     transition: transform 250ms;
+    display: -ms-grid;
+    display: grid;
+    margin-bottom: 30%;
 }
 
-.demo .electron:hover {
+.demo-a .electron:hover {
     transform: scale(1.4);
 }
 
-.demo .electron b {
+.demo-a .electron b, .demo-b .proton b, .demo-b .neutron b {
     position: absolute;
     right: 200%;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.demo-b .proton b, .demo-b .neutron b {
+    right: 150%;
+}
+
+.demo-b .proton {
+    background: lightgreen;
+    margin-top: 37vh;
+    width: 2vw;
+    height: 2vw;
+    font-size: 1.6vw;
+    box-shadow: 0 0 0 .3vw black;
+}
+
+.demo-b .neutron {
+    background: red;
+    font-size: 1.6vw;
+    width: 2vw;
+    height: 2vw;
+    box-shadow: 0 0 0 .3vw black;
 }
 
 .shell.rotate:nth-child() {
@@ -187,9 +241,9 @@ body {
 #a-number {
     position: absolute;
     top: 0%;
-    left: 102%;
+    left: 23vw;
     font-size: 3vw;
-    width: 25%;
+    width: 6vw;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
@@ -197,14 +251,39 @@ body {
     display: none;
 }
 
-#nep {
+#secret {
     position: absolute;
     top: 0%;
-    left: 26%;
+    left: 25%;
     font-size: 4vw;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     opacity: 0;
     transition: opacity 250ms;
+    text-align: center;
+    width: 30%;
+    height: 20%;
+    background: white;
+    box-shadow: 0 0 0 1vw black;
+    display: -ms-grid;
+    display: grid;
+    place-items: center;
+}
+
+#photo {
+    position: absolute;
+    left: 0%;
+    top: 0%;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.397);
+    display: none;
+    place-items: center;
+    z-index: 2;
+}
+
+#photo canvas {
+    z-index: 50;
+    box-shadow: 0 0 0 .1vw black;
 }
 
 @media screen and (orientation: portrait) {
