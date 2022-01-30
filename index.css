@@ -127,7 +127,7 @@ body {
 }
 
 .electron.all {
-    background: linear-gradient(90deg, red, lime, cyan, blue, red);
+    background: linear-gradient(90deg, red 20%, lime 40%, cyan 60%, blue 80%, red 100%);
     animation-name: rainbow;
     animation-timing-function: linear;
     animation-duration: 2s;

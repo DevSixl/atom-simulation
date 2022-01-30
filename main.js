@@ -130,7 +130,6 @@ window.onload = () => {
     document.body.appendChild(elem);
 
     document.querySelectorAll(".demo-a > .electron").forEach(e => {
-        if(e.classList.contains("all")) return;
         e.addEventListener("mouseover", () => {
             document.querySelectorAll("#model > .shell > .electron").forEach(node => {
                 node.bg = () => {   
@@ -141,15 +140,23 @@ window.onload = () => {
                         case "f": return "blue";
                     }
                 }
+                if(e.classList.contains("all")) {
+                    e.onclick = () => {
+                        document.querySelectorAll("#model > .shell > .electron").forEach(node => {
+                            node.style.background = window.getComputedStyle(e, null).background;
+                            node.style.animation = window.getComputedStyle(e, null).animation;
+                        })
+                    }
+                    return;
+                }
                 node.style.background = window.getComputedStyle(e, null).background;
-                //node.style.animation = window.getComputedStyle(e, null).animation;
             })
         })
 
         e.addEventListener("mouseout", () => {
             document.querySelectorAll("#model > .shell > .electron").forEach(node => {
                 node.style.background = node.bg();
-                //node.style.animation = "";
+                node.style.animation = "";
             })
         })
     })
