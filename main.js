@@ -28,7 +28,7 @@ function toggleRotation() {
         Array.from(document.querySelectorAll(".rotate")).forEach(e => {
             e.style.animationPlayState = "running";
         })
-        nucleus.style.backgroundColor = "rgba(0, 255, 0, 0.274)";
+        nucleus.style.backgroundColor = "rgba(0, 255, 0, 0.7)";
         nucleus.classList.remove("pause");
     } 
     else {
@@ -141,11 +141,17 @@ window.onload = () => {
                     }
                 }
                 if(e.classList.contains("all")) {
+                    e.clicks = 0;
                     e.onclick = () => {
                         document.querySelectorAll("#model > .shell > .electron").forEach(node => {
                             node.style.background = window.getComputedStyle(e, null).background;
                             node.style.animation = window.getComputedStyle(e, null).animation;
                         })
+                        e.clicks++;
+                        if(e.clicks == 5) {
+                            document.body.classList.add("rainbow");
+                            e.clicks = 0;
+                        }
                     }
                     return;
                 }
@@ -158,6 +164,7 @@ window.onload = () => {
                 node.style.background = node.bg();
                 node.style.animation = "";
             })
+            document.body.classList.remove("rainbow");
         })
     })
 
