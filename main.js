@@ -15,7 +15,7 @@ function changeElement(element, pairs) {
     createAtom(elements[element.getAttribute("name")], pairs);
     let elem = element.cloneNode(true);
     elem.id = "element";
-    //elem.onclick = info;
+    elem.onclick = info;
 
     document.body.appendChild(elem);
 }

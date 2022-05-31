@@ -97,6 +97,7 @@ function createAtom(element, pairs) {
         }
 
         rotateAmount = 360 / amount;
+        let offsetY = (amount > 1) ? .6 : -.6;
 
         element.configuration[e].forEach(subshell => {
             const type = subshell.substring(0, 1);

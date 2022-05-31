@@ -60,7 +60,7 @@ body {
     font-size: 4vw;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-weight: bolder;
-    box-shadow: 0 0 0 .2vw black;
+    border: .3vw black solid;
     cursor: pointer;
     z-index: 10;
     transition: background-color 250ms, box-shadow 250ms;
@@ -96,13 +96,17 @@ body {
     display: -ms-grid;
     display: grid;
     place-items: center;
-    box-shadow: 0 0 0 .2vw black;
+    border: .3vw black solid;
     transition: box-shadow 250ms, opacity 250ms;
     cursor: pointer;
 }
 
 .shell:hover {
     box-shadow: 0 0 1vw .2vw red;
+}
+
+.shell:hover ~ #nucleus {
+    opacity: .5;
 }
 
 .electron, .proton, .neutron {
@@ -288,9 +292,24 @@ body {
     z-index: 2;
 }
 
-#photo canvas {
-    z-index: 50;
-    box-shadow: 0 0 0 .1vw black;
+#credit {
+    position: absolute;
+    right: 15.5%;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 1.5vw;
+    top: 0%;
+    opacity: .15;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+     -khtml-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+}
+
+#credit a {
+    color: black;
 }
 
 @media screen and (orientation: portrait) {
